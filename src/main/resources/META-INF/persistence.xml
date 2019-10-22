@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="database"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>de.revilo.uebungen.database.repository.model.Game</class>
+		<class>de.revilo.uebungen.database.repository.model.Genre</class>
+		<class>de.revilo.uebungen.database.repository.model.Platform</class>
+		<!-- <jta-data-source>java:/DefaultDS</jta-data-source> -->
+		<properties>
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:postgresql://192.168.99.103:5430/test" />
+			<property name="javax.persistence.jdbc.user" value="admin" />
+			<property name="javax.persistence.jdbc.driver"
+				value="org.postgresql.Driver" />
+			<property name="javax.persistence.jdbc.password"
+				value="admin1" />
+
+			<property name="hibernate.show_sql" value="true" />
+		</properties>
+	</persistence-unit>
+</persistence>
