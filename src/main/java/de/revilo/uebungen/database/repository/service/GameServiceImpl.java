@@ -2,42 +2,40 @@ package de.revilo.uebungen.database.repository.service;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import de.revilo.uebungen.database.repository.impl.GameServiceAble;
 import de.revilo.uebungen.database.repository.model.Game;
 import de.revilo.uebungen.database.repository.service.util.GameReadCriteria;
-import de.revilo.uebungen.database.repository.service.util.GameReadJPA;
 
 public class GameServiceImpl implements GameServiceAble {
 
 	@Override
-	public List<Game> findAll(EntityManager emManager) {
-		List<Game> gameList = GameReadCriteria.findAllWithCriteria(emManager);
+	public List<Game> findAll() {
+		List<Game> gameList = GameReadCriteria.findAllWithCriteria();
 		return gameList;
 	}
 
 	@Override
-	public List<Game> findByGenre(EntityManager emManage, String genre) {
-		List<Game> gameList = GameReadJPA.findByGenreJPA(emManage, genre);
+	public Game findById(int id) {
+		Game gameList = GameReadCriteria.findByIdWithCriteria(id);
 		return gameList;
 	}
 
 	@Override
-	public Game findById(EntityManager emManage, int id) {
-		Game gameList = GameReadJPA.findByIdJPA(emManage, id);
+	public List<Game> findByPlatform(String platform) {
+		List<Game> gameList = GameReadCriteria.findByPlatformWithCriteria(platform);
 		return gameList;
 	}
 
 	@Override
-	public List<Game> findByPlatform(EntityManager emManage, String platform) {
-		List<Game> gameList = GameReadJPA.findByPlatformJPA(emManage, platform);
+	public List<Game> findByName(String name) {
+		List<Game> gameList = GameReadCriteria.findByNameWithCriteria(name);
 		return gameList;
 	}
 
 	@Override
-	public List<Game> findByName(EntityManager emManage, String name) {
-		List<Game> gameList = GameReadJPA.findByNameJPA(emManage, name);
+	public List<Game> findByGenre(String genre) {
+
+		List<Game> gameList = GameReadCriteria.findByFenreWithCriteria(genre);
 		return gameList;
 	}
 

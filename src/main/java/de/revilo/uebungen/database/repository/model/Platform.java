@@ -3,6 +3,7 @@ package de.revilo.uebungen.database.repository.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,8 +17,10 @@ public class Platform implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(unique = true, nullable = false)
 	private Integer id;
 
+	@Column(nullable = false, length = 2147483647)
 	private String name;
 
 	public Platform() {

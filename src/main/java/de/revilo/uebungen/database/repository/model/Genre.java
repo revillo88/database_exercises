@@ -1,12 +1,15 @@
 package de.revilo.uebungen.database.repository.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,9 +19,14 @@ public class Genre implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(unique = true, nullable = false)
 	private Integer id;
 
+	@Column(nullable = false, length = 255)
 	private String art;
+
+	@OneToMany(mappedBy = "genreBean")
+	private List<Game> games;
 
 	public Genre() {
 	}
@@ -39,9 +47,31 @@ public class Genre implements Serializable {
 		this.art = art;
 	}
 
+	public List<Game> getGames() {
+		return this.games;
+	}
+
+	public void setGames(List<Game> games) {
+		this.games = games;
+	}
+
+	public Game addGame(Game game) {
+		getGames().add(game);
+		game.setGenreBean(this);
+
+		return game;
+	}
+
+	public Game removeGame(Game game) {
+		getGames().remove(game);
+		game.setGenreBean(null);
+
+		return game;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(art, id);
+		return Objects.hash(art, games, id);
 	}
 
 	@Override
@@ -51,8 +81,7 @@ public class Genre implements Serializable {
 		if (!(obj instanceof Genre))
 			return false;
 		Genre other = (Genre) obj;
-		return Objects.equals(art, other.art) && Objects.equals(id, other.id);
+		return Objects.equals(art, other.art) && Objects.equals(games, other.games) && Objects.equals(id, other.id);
 	}
 
-	
 }

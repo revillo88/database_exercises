@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,19 +23,23 @@ public class Game implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(unique = true, nullable = false)
 	private Integer id;
 
 	@Temporal(TemporalType.DATE)
 	private Date erscheinungsdatum;
 
-	private String genre;
-
+	@Column(nullable = false, length = 255)
 	private String name;
 
+	@Column(length = 255)
 	private String platform;
 
-	public Game() {
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "genre", nullable = false)
+	private Genre genreBean;
 
+	public Game() {
 	}
 
 	public Integer getId() {
@@ -50,14 +58,6 @@ public class Game implements Serializable {
 		this.erscheinungsdatum = erscheinungsdatum;
 	}
 
-	public String getGenre() {
-		return this.genre;
-	}
-
-	public void setGenre(String genre) {
-		this.genre = genre;
-	}
-
 	public String getName() {
 		return this.name;
 	}
@@ -74,15 +74,23 @@ public class Game implements Serializable {
 		this.platform = platform;
 	}
 
+	public Genre getGenreBean() {
+		return this.genreBean;
+	}
+
+	public void setGenreBean(Genre genreBean) {
+		this.genreBean = genreBean;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("Game [id=%s, erscheinungsdatum=%s, genre=%s, name=%s, platform=%s]", id,
-				erscheinungsdatum, genre, name, platform);
+		return String.format("Game [id=%s, erscheinungsdatum=%s, name=%s, platform=%s, genreBean=%s]", id,
+				erscheinungsdatum, name, platform, genreBean);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(erscheinungsdatum, genre, id, name, platform);
+		return Objects.hash(erscheinungsdatum, genreBean, id, name, platform);
 	}
 
 	@Override
@@ -92,7 +100,7 @@ public class Game implements Serializable {
 		if (!(obj instanceof Game))
 			return false;
 		Game other = (Game) obj;
-		return Objects.equals(erscheinungsdatum, other.erscheinungsdatum) && Objects.equals(genre, other.genre)
+		return Objects.equals(erscheinungsdatum, other.erscheinungsdatum) && Objects.equals(genreBean, other.genreBean)
 				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
 				&& Objects.equals(platform, other.platform);
 	}
